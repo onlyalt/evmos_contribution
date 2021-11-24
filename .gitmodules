@@ -1,0 +1,3 @@
+[submodule "evmos"]
+	path = evmos
+	url = git@github.com:tharsis/evmos.git
