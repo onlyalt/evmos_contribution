@@ -5,7 +5,11 @@
   <div class="row mt-4 mb-4">
     <div class="col-3">
       <h2>Gas Price</h2>
-        {{ eth.gas_price / 1000000000}} Gwei
+        {{ current_gas_price / 1000000000}} Gwei
+    </div>
+      <div class="col-3">
+      <h2>Block Number</h2>
+        {{ current_block_number }}
     </div>
   </div>
   <div class="row">
@@ -17,53 +21,49 @@
          <tr>
            <td>
              <h5>Block</h5>
-             <a href="/block/{{ block.number }}">{{ block.number }}</a>
+             <a href="/block/{{ block.block_number }}">{{ block.block_number }}</a>
              <p>{{ (current_time - block.timestamp)|int }} seconds ago</p>
            </td>
            <td>
              <h5>Miner</h5>
-             <a href="/address/{{ block.miner }}">
-               {% if block.miner.lower() in miners %}
-                  {{ miners[block.miner.lower()] }}
-               {% else %}
+<!--             <a href="/address/{{ block.miner }}">-->
                 {{ block.miner.lower() }}
-               {% endif %}
-             </a>
+<!--             </a>-->
              <p>
                {{ block.transactions|length }} transactions
              </p>
            </td>
             <td>
            <h5>Gas Price</h5>
-           <p>{{ block.baseFeePerGas / 1000000000}} Gwei</p>
+           <p>{{ block.base_fee_per_gas / 1000000000}} Gwei</p>
          </td>
          </tr>
          {% endfor %}
        </table>
      </div>
-    <div class="col-6">
-      <h3>Latest Transactions</h3>
-      <table class="table table-striped">
-        {% for transaction in latest_transactions %}
-        <tr>
-          <td>
-            <h5>Hash</h5>
-            <p>
-              <a href="/tx/{{ transaction['hash'].hex() }}">{{ transaction['hash'].hex()}}</a>
-            </p>
-            <p>
-              <strong>From</strong>
-              <a href="/address/{{ transaction['from'] }}">{{ transaction['to'] }}</a>
-            </p>
-            <p>
-              <strong>To</strong>
-              <a href="/address/{{ transaction['to'] }}">{{ transaction['to'] }}</a>
-            </p>
-          </td>
-        </tr>
-        {% endfor %}
-      </table>
-    </div>
+<!--    <div class="col-6">-->
+<!--      <h3>Latest Transactions</h3>-->
+<!--      <table class="table table-striped">-->
+<!--        {% for transaction in latest_transactions %}-->
+<!--        <tr>-->
+<!--          <td>-->
+<!--            <h5>Hash</h5>-->
+<!--            <p>-->
+<!--              <a href="/tx/{{ transaction['hash'].hex() }}">{{ transaction['hash'].hex()}}</a>-->
+<!--            </p>-->
+<!--            <p>-->
+<!--              <strong>From</strong>-->
+<!--              <a href="/address/{{ transaction['from'] }}">{{ transaction['to'] }}</a>-->
+<!--            </p>-->
+<!--            <p>-->
+<!--              <strong>To</strong>-->
+<!--              <a href="/address/{{ transaction['to'] }}">{{ transaction['to'] }}</a>-->
+<!--            </p>-->
+<!--          </td>-->
+<!--        </tr>-->
+<!--        {% endfor %}-->
+<!--      </table>-->
+<!--    </div>-->
   </div>
 </div>
 

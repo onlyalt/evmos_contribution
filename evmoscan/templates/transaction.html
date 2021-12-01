@@ -1,15 +1,32 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<h4>Transaction Detail: {{ hash }}</h4>>
 <table class="table table-dark table-striped">
     <tr>
+        <td>Block Hash:</td>
+        <td><a href="/block/{{ transaction.block_number }}">{{ transaction.block_hash }}</td>
+    </tr>
+    <tr>
+        <td>Block Number:</td>
+        <td><a href="/block/{{ transaction.block_number }}">{{ transaction.block_number }}</td>
+    </tr>
+    <tr>
+        <td>Transaction Hash:</td>
+        <td>{{ transaction.hash }}</td>
+    </tr>
+    <tr>
         <td>From:</td>
-        <td><a href="/address/{{ transaction.from }}">{{ transaction.from }}</a></td>
+        <td>
+<!--            <a href="/address/{{ transaction.created_from }}">{{ transaction.created_from }}</a>-->
+            {{ transaction.created_from }}
+        </td>
     </tr>
     <tr>
         <td>To:</td>
-        <td><a href="/address/{{ transaction.to }}">{{ transaction.to }}</a></td>
+        <td>
+<!--            <a href="/address/{{ transaction.created_to }}">{{ transaction.created_to }}</a>-->
+            {{ transaction.created_to }}
+        </td>
     </tr>
     <tr>
         <td>Gas:</td>
@@ -17,7 +34,15 @@
     </tr>
     <tr>
         <td>Gas Price:</td>
-        <td>{{ transaction.gasPrice }}</td>
+        <td>{{ transaction.gas_price / 1_000_000_000 }} MicroEvmos </td>
+    </tr>
+    <tr>
+        <td>Max Fee Per Price:</td>
+        <td>{{ transaction.max_fee_per_gas / 1_000_000_000 }} MicroEvmos</td>
+    </tr>
+    <tr>
+        <td>Max Priority Fee Per Gas:</td>
+        <td>{{ transaction.max_priority_fee_per_gas / 1_000_000_000 }} MicroEvmos</td>
     </tr>
 </table>
 
