@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import logo from '../alt_logo.png';
 import './App.css';
 import Web3 from 'web3';
+import { ethers, Wallet } from 'ethers'
 import OtterCoin from '../abis/OtterCoin.json'
 
 const PRE_PRIVATE_KEY =  'f5c2c5ad51df662c23be107dfd100fe0166ca7870bd83698b7bb15e769065f93'
 const PRIVATE_KEY = '0x' + PRE_PRIVATE_KEY
+
 const OttTokenAddress = "0x5052D35de7697B0aCF2F9F31BE8367c803d88357" 
 
 var Tx = require('ethereumjs-tx').Transaction;
@@ -44,7 +46,7 @@ class App extends Component {
     //const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"))
     console.log(web3.version)
     const account_ = await web3.eth.accounts.privateKeyToAccount(PRIVATE_KEY);
-    console.log(account_.address)
+    console.log(account_)
     this.setState({ account: account_.address })
 
     const otterCoin = new web3.eth.Contract(OtterCoin.abi, OttTokenAddress, {from: this.state.account})
