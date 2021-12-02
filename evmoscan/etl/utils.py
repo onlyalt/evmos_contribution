@@ -2,27 +2,30 @@ import backoff
 import requests
 import json
 
+# RPC_ENDPOINT = 'http://localhost:8545'
+RPC_ENDPOINT = 'https://ethereum.rpc.evmos.dev/'
+
 
 @backoff.on_exception(backoff.constant, Exception, interval=0, max_tries=2)
-def get_block_info_rpc(block_number: int, rpc: str = 'http://localhost:8545') -> str:
+def get_block_info_rpc(block_number: int, rpc: str = RPC_ENDPOINT) -> str:
     res = requests.post(rpc, data=f'{{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":[{block_number}, false],"id":1}}', headers={'Content-Type': 'application/json'})
     res.raise_for_status()
     return res.text
 
 
-def get_latest_block_number(rpc: str = 'http://localhost:8545') -> int:
+def get_latest_block_number(rpc: str = RPC_ENDPOINT) -> int:
     res = requests.post(rpc, data='{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}', headers={'Content-Type': 'application/json'})
     res.raise_for_status()
     return int(json.loads(res.text)['result'], 16)
 
 
-def get_transaction_info_rpc(tx_hash: str, rpc: str = 'http://localhost:8545') -> str:
+def get_transaction_info_rpc(tx_hash: str, rpc: str = RPC_ENDPOINT) -> str:
     res = requests.post(rpc, data=f'{{"jsonrpc":"2.0","method":"eth_getTransactionByHash","params":["{tx_hash}"],"id":1}}', headers={'Content-Type': 'application/json'})
     res.raise_for_status()
     return res.text
 
 
-def get_gas_price(rpc: str = 'http://localhost:8545') -> int:
+def get_gas_price(rpc: str = RPC_ENDPOINT) -> int:
     res = requests.post(rpc, data='{"jsonrpc":"2.0","method":"eth_gasPrice","params":[],"id":1}', headers={'Content-Type': 'application/json'})
     res.raise_for_status()
     return int(json.loads(res.text)['result'], 16)

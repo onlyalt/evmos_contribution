@@ -10,8 +10,8 @@ def creat_app():
 
 
 app = creat_app()
-MAX_TX_DISPLAY = 5
-MAX_BLOCK_DISPLAY = 5
+# MAX_TX_DISPLAY = 5
+MAX_BLOCK_DISPLAY = 10
 
 
 @app.route("/")
