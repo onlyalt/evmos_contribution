@@ -28,7 +28,7 @@
     "node_modules"
   ],
   "files": [
-    "./hardhat.config.ts"
+    "./hardhat.config.js"
   ],
   "include": [
     "scripts/**/*",
