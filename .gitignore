@@ -70,7 +70,6 @@ bower_components/
 dist/
 *.py[cod]
 __pycache__/
-<<<<<<< HEAD
 venv/
 .cache/
 .pytest_cache/
