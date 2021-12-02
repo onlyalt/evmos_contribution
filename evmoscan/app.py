@@ -1,16 +1,22 @@
+import sqlite3
 import time
+import os
 
 from flask import Flask, render_template
 from evmoscan.etl.utils import *
 
+DB_FILE_PATH = os.getenv('DB_FILE_PATH')
+
 
 def creat_app():
     app = Flask(__name__)
+    if DB_FILE_PATH:
+        dbconn = sqlite3.connect(DB_FILE_PATH, isolation_level=None)  # autocommits
+        app.cur = dbconn.cursor()
     return app
 
 
 app = creat_app()
-# MAX_TX_DISPLAY = 5
 MAX_BLOCK_DISPLAY = 10
 
 
@@ -20,6 +26,7 @@ def index():
     current_gas_price = get_gas_price()
     latest_blocks = [block_loader(json.loads(get_block_info_rpc(current_block_number - i))) for i in range(MAX_BLOCK_DISPLAY)]
 
+    validators, n_validators = get_validators()
     current_time = time.time()
     return render_template(
         "index.html",
@@ -28,12 +35,16 @@ def index():
         current_block_number=current_block_number,
         latest_blocks=latest_blocks,
         current_time=current_time,
+        validators=validators,
+        n_validators=n_validators,
     )
 
 
-# @app.route("/address/<addr>")
-# def address(addr):
-#     return render_template("address.html", addr=addr)
+@app.route("/validator/<addr>")
+def validator(addr):
+    validator_ = get_validator(addr)
+    delegations = get_delegation(addr)
+    return render_template("validator.html", validator=validator_, delegations=delegations)
 
 
 @app.route("/tx/<hash>")
@@ -46,3 +57,10 @@ def transaction(hash):
 def block(block_number):
     block_ = block_loader(json.loads(get_block_info_rpc(block_number)))
     return render_template("block.html", block=block_)
+
+
+@app.route("/proposal/<prop_id>")
+def proposal(prop_id):
+    proposal_ = get_proposal(prop_id)
+    return render_template("proposal.html", proposal=proposal_)
+

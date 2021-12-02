@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<table class="table table-dark table-striped">
+  <tr>
+      <td>Proposal ID:</td>
+      <td>{{ proposal['proposal_id'] }}</td>
+  </tr>
+  <tr>
+      <td>Status:</td>
+      <td>{{ proposal['status'] }}</td>
+  </tr>
+  <tr>
+      <td>Title:</td>
+      <td>{{ proposal['content']['title'] }}</td>
+  </tr>
+  <tr>
+      <td>Description:</td>
+      <td>{{ proposal['content']['description'] }}</td>
+  </tr>
+  <tr>
+      <td>Submit Time:</td>
+      <td>{{ proposal['submit_time'] }}</td>
+  </tr>
+  <tr>
+      <td>Voting Start Time:</td>
+      <td>{{ proposal['voting_start_time'] }}</td>
+  </tr>
+  <tr>
+      <td>Voting End Time:</td>
+      <td>{{ proposal['voting_end_time'] }}</td>
+  </tr>
+  <tr>
+      <td>Total Deposit:</td>
+      <td>{{ proposal['total_deposit'][0]['amount'] }}</td>
+  </tr>
+</table>
+
+<h3>Changes</h3>
+  <table class="table table-striped">
+      {% for c in proposal['content']['changes'] %}
+    <tr>
+      <td>
+        <p>
+          <strong>Key:</strong>
+          {{ c['key'] }}
+        </p>
+        <p>
+          <strong>Subspace:</strong>
+          {{ c['subspace'] }}
+        </p>
+        <p>
+          <strong>Value:</strong>
+          {{ c['value'] }}
+        </p>
+      </td>
+      {% endfor %}
+   </table>
+
+<h3>Final Tally Result</h3>
+  <table class="table table-striped">
+    <tr>
+      <td>Abstain</td>
+      <td>{{ proposal['final_tally_result']['abstain'] }}</td>
+    </tr>
+    <tr>
+      <td>Yes</td>
+      <td>{{ proposal['final_tally_result']['yes'] }}</td>
+    </tr>
+    <tr>
+      <td>No</td>
+      <td>{{ proposal['final_tally_result']['no'] }}</td>
+    </tr>
+    <tr>
+      <td>No with Veto</td>
+      <td>{{ proposal['final_tally_result']['no_with_veto'] }}</td>
+    </tr>
+   </table>
+
+{% endblock%}
