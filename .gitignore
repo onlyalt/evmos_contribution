@@ -96,7 +96,6 @@ Thumbs.db
 # Miscellaneous
 ###################################
 .deploy_git/
-public/
 db.json
 .Rproj.user
 .vscode/
