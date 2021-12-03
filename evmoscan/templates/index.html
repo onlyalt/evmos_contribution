@@ -7,9 +7,13 @@
       <h2>Gas Price</h2>
         {{ current_gas_price / 1000000000}} Gwei
     </div>
-      <div class="col-3">
+    <div class="col-3">
       <h2>Block Number</h2>
         {{ current_block_number }}
+    </div>
+    <div class="col-3">
+      <h2>Total Validators</h2>
+        {{ n_validators }}
     </div>
   </div>
   <div class="row">
@@ -41,29 +45,25 @@
          {% endfor %}
        </table>
      </div>
-<!--    <div class="col-6">-->
-<!--      <h3>Latest Transactions</h3>-->
-<!--      <table class="table table-striped">-->
-<!--        {% for transaction in latest_transactions %}-->
-<!--        <tr>-->
-<!--          <td>-->
-<!--            <h5>Hash</h5>-->
-<!--            <p>-->
-<!--              <a href="/tx/{{ transaction['hash'].hex() }}">{{ transaction['hash'].hex()}}</a>-->
-<!--            </p>-->
-<!--            <p>-->
-<!--              <strong>From</strong>-->
-<!--              <a href="/address/{{ transaction['from'] }}">{{ transaction['to'] }}</a>-->
-<!--            </p>-->
-<!--            <p>-->
-<!--              <strong>To</strong>-->
-<!--              <a href="/address/{{ transaction['to'] }}">{{ transaction['to'] }}</a>-->
-<!--            </p>-->
-<!--          </td>-->
-<!--        </tr>-->
-<!--        {% endfor %}-->
-<!--      </table>-->
-<!--    </div>-->
+    <div class="col-6">
+      <h3>Sample Validators</h3>
+      <table class="table table-striped">
+        {% for validator in validators %}
+        <tr>
+          <td>
+            <p>
+              <strong>Address</strong>
+              <a href="/validator/{{ validator.address }}">{{ validator.address }}</a>
+            </p>
+            <p>
+              <strong>Tokens</strong>
+              {{ validator.tokens }}</a>
+            </p>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
   </div>
 </div>
 

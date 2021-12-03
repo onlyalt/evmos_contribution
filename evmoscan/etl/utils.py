@@ -7,7 +7,7 @@ RPC_ENDPOINT = 'https://ethereum.rpc.evmos.dev/'
 
 
 @backoff.on_exception(backoff.constant, Exception, interval=0, max_tries=2)
-def get_block_info_rpc(block_number: int, rpc: str = RPC_ENDPOINT) -> str:
+def get_block_info_rpc(block_number: int, rpc: str = RPC_ENDPOINT, cur=None) -> str:
     res = requests.post(rpc, data=f'{{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":[{block_number}, false],"id":1}}', headers={'Content-Type': 'application/json'})
     res.raise_for_status()
     return res.text
@@ -29,6 +29,74 @@ def get_gas_price(rpc: str = RPC_ENDPOINT) -> int:
     res = requests.post(rpc, data='{"jsonrpc":"2.0","method":"eth_gasPrice","params":[],"id":1}', headers={'Content-Type': 'application/json'})
     res.raise_for_status()
     return int(json.loads(res.text)['result'], 16)
+
+
+def get_validators():
+    res = requests.get('https://evmos-api.mercury-nodes.net/cosmos/staking/v1beta1/validators')
+    res.raise_for_status()
+    d = json.loads(res.text)
+    return [validator_loader(x) for x in d['validators']], int(d['pagination']['total'])
+
+
+def get_validator(addr):
+    res = requests.get(f'https://evmos-api.mercury-nodes.net/cosmos/staking/v1beta1/validators/{addr}')
+    res.raise_for_status()
+    return validator_loader(json.loads(res.text)['validator'])
+
+
+def get_delegation(validator_addr):
+    res = requests.get(f'https://evmos-api.mercury-nodes.net/cosmos/staking/v1beta1/validators/{validator_addr}/delegations')
+    res.raise_for_status()
+    return [delegation_loader(x) for x in json.loads(res.text)['delegation_responses']]
+
+
+def get_proposal(prop_id):
+    res = requests.get(f'https://evmos-api.mercury-nodes.net/cosmos/gov/v1beta1/proposals/{prop_id}')
+    res.raise_for_status()
+    return json.loads(res.text)['proposal']
+
+
+class Delegation:
+    def __init__(
+            self,
+            delegator_address: str,
+            validator_address: str,
+            shares: int,
+    ):
+        self.delegator_address = delegator_address
+        self.validator_address = validator_address
+        self.shares = shares
+
+
+def delegation_loader(d: dict) -> Delegation:
+    return Delegation(
+        delegator_address=d['delegation']['delegator_address'],
+        validator_address=d['delegation']['validator_address'],
+        shares=int(d['balance']['amount']),
+    )
+
+
+class Validator:
+    def __init__(
+            self,
+            address: str,
+            jailed: bool,
+            tokens: int,
+            delegator_shares: float,
+    ):
+        self.address = address
+        self.jailed = jailed
+        self.tokens = tokens
+        self.delegator_shares = delegator_shares
+
+
+def validator_loader(v: dict) -> Validator:
+    return Validator(
+        address=v['operator_address'],
+        jailed=v['jailed'],
+        tokens=v['tokens'],
+        delegator_shares=float(v['delegator_shares']),
+    )
 
 
 class Block:

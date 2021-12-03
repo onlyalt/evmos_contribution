@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<table class="table table-dark table-striped">
+    <tr>
+        <td>Validator address:</td>
+        <td>{{ validator.address }}</td>
+    </tr>
+    <tr>
+        <td>Jailed:</td>
+        <td>{{ validator.jailed }}</td>
+    </tr>
+    <tr>
+        <td>Tokens:</td>
+        <td>{{ validator.tokens }}</td>
+    </tr>
+    <tr>
+        <td>Delegator Shares:</td>
+        <td>{{ validator.delegator_shares }}</td>
+    </tr>
+</table>
+
+<h3>Delegations</h3>
+    <table class="table table-striped">
+      {% for d in delegations %}
+      <tr>
+        <td>Delegator Address:</td>
+        <td>{{ d.delegator_address }}</td>
+      </tr>
+      <tr>
+        <td>Validator Address:</td>
+        <td>{{ d.validator_address }}</td>
+      </tr>
+      <tr>
+        <td>Shares:</td>
+        <td>{{ d.shares }}</td>
+      </tr>
+      {% endfor %}
+   </table>
+
+{% endblock%}

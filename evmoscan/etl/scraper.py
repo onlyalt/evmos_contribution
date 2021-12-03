@@ -1,15 +1,10 @@
 import sqlite3
 from tqdm import tqdm
 import click
-from web3 import Web3
 from utils import *
 
-# @backoff.on_exception(backoff.constant, Exception, interval=0, max_tries=2)
-# def get_block_info(w3, block_number: int) -> dict:
-#     return w3.eth.get_block(block_number)
 
-
-def get_blocks_within_range(raw_db_file: str, block_from: int, block_to: int, w3, flush = 100):
+def get_blocks_within_range(raw_db_file: str, block_from: int, block_to: int,  catch_up: bool, flush: int = 100):
     dbconn = sqlite3.connect(raw_db_file, isolation_level=None)  # autocommits
     cur = dbconn.cursor()
     cur.execute(
@@ -19,6 +14,9 @@ def get_blocks_within_range(raw_db_file: str, block_from: int, block_to: int, w3
             meta BLOB)
         """
     )
+    if catch_up:
+        block_from = cur.execute("SELECT max(block_number) from blocks_meta").fetchone()[0]
+
     blocks = []
     for i in tqdm(range(block_from, block_to)):
         if i % flush == 0 and i != block_from:
@@ -27,39 +25,9 @@ def get_blocks_within_range(raw_db_file: str, block_from: int, block_to: int, w3
                 blocks,
             )
             blocks =[]
-            # print('sleeping 10s')
-            # time.sleep(10)
-
         try:
             block = get_block_info_rpc(i)
             blocks.append([i, block])
-            # block = get_block_info(w3, i)
-            # blocks.append([
-            #     i,
-            #     json.dumps({
-            #         'baseFeePerGas': block['baseFeePerGas'],
-            #         'difficulty': block['difficulty'],
-            #         'extraData': block['extraData'].hex(),
-            #         'gasLimit': block['gasLimit'],
-            #         'gasUsed': block['gasUsed'],
-            #         'hash': block['hash'].hex(),
-            #         'logsBloom': block['logsBloom'].hex(),
-            #         'miner': block['miner'],
-            #         'mixHash': block['mixHash'].hex(),
-            #         'nonce': block['nonce'].hex(),
-            #         'number': block['number'],
-            #         'parentHash': block['parentHash'].hex(),
-            #         'receiptsRoot': block['receiptsRoot'].hex(),
-            #         'sha3Uncles': block['sha3Uncles'].hex(),
-            #         'size': block['size'],
-            #         'stateRoot': block['stateRoot'].hex(),
-            #         'timestamp': block['timestamp'],
-            #         'totalDifficulty': block['totalDifficulty'],
-            #         'transactions': [x.hex() for x in block['transactions']],
-            #         'transactionsRoot': block['transactionsRoot'].hex(),
-            #         'uncles': [x.hex() for x in block['uncles']],
-            #     })
-            # ])
         except:
             print(i)
 
@@ -70,18 +38,16 @@ def get_blocks_within_range(raw_db_file: str, block_from: int, block_to: int, w3
 
 
 @click.command()
-@click.option('--block-from', type=int)
+@click.option('--block-from', type=int, default=0)
 @click.option('--block-to', type=int, default=-1)
 @click.option('--raw-db-file', type=str)
-@click.option('--w3-rpc', type=str, default='http://localhost:8545')
-def scrape(block_from: int, block_to: int, raw_db_file: str, w3_rpc: str):
-    w3 = Web3(Web3.HTTPProvider(w3_rpc))
+@click.option('--w3-rpc', type=str, default=RPC_ENDPOINT)
+@click.option("--catch-up", is_flag=True, default=False)
+def scrape(block_from: int, block_to: int, raw_db_file: str, w3_rpc: str, catch_up: bool):
     if block_to == -1:
-        block_to = w3.eth.block_number
+        block_to = get_latest_block_number(w3_rpc)
         print(f"set block_to to {block_to}")
-
-    get_blocks_within_range(raw_db_file, block_from, block_to, w3)
-    # max = 63554
+    get_blocks_within_range(raw_db_file, block_from, block_to, catch_up)
 
 if __name__ == '__main__':
     scrape()
