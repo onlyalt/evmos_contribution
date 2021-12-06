@@ -26,7 +26,7 @@ function App() {
       </nav>
 
       <div className="auth-wrapper">
-        <div className="auth-inner">
+        <div className="auth-inner" style={{ width: "700px"}}>
           <Switch>
             <Route exact path='/wallet' component={Transfer} />
             <Route path="/nft" component={SignUp} />

@@ -22,11 +22,12 @@ class App extends Component {
       contractAddressOtt : '',
       ottBalance: 0,
       photonBalance: 0,
-      transactions: []
+      transactions: [],
+      coinToSend: null,
     }
-  this.transferErc20Coin = this.transferErc20Coin.bind(this)
-  this.transferNativeCoin = this.transferNativeCoin.bind(this)
-  this.loadMnemonicFromLocalStorage = this.loadMnemonicFromLocalStorage.bind(this)
+    this.transferErc20Coin = this.transferErc20Coin.bind(this)
+    this.transferNativeCoin = this.transferNativeCoin.bind(this)
+    this.loadMnemonicFromLocalStorage = this.loadMnemonicFromLocalStorage.bind(this)
   }
 
   async loadBlockchainData() {
@@ -46,7 +47,7 @@ class App extends Component {
       ottBalance: ottBalance,
       photonBalance: photonBalance,
     }
-    )
+  )
     
   }
 
@@ -118,61 +119,93 @@ class App extends Component {
 
 
   render() {
-    return (
-      <div>
-        
-        <div className="container-fluid mt-5">
-          <div className="row">
-            <main role="main" className="col-lg-12 d-flex text-center">
-              <div className="content mr-auto ml-auto" style= {{ width: "400px" }}>
+    if (this.state.coinToSend) {
+      return (
+      <form onSubmit={(event) => {
+        event.preventDefault()
+        const recipient = this.recipient.value
+        const amount = this.amount.value
+        this.transferNativeCoin(this.state.wallet, recipient, amount)
+      }}>
+        <h3>Sending {this.state.coinToSend}</h3>
+        <div className="form-group mr-sm-2" style={{
+          marginBottom: '12px',
+        }}>
+          <input
+            id="recipient"
+            type="text"
+            ref={(input) => { this.recipient = input }}
+            className="form-control"
+            placeholder="Recipient Address"
+            required />
+        </div>
+        <div className="form-group mr-sm-2" style={{
+          marginBottom: '12px',
+        }}>
+          <input
+            id="amount"
+            type="text"
+            ref={(input) => { this.amount = input }}
+            className="form-control"
+            placeholder="Amount"
+            required />
+        </div>
+        <button type="submit" className="btn btn-primary btn-block" style={{
+          marginBottom: '12px',
+          marginRight: '12px',
+        }}>Send</button>
+         <button type="submit" className="btn btn-secondary btn-block" style={{
+          marginBottom: '12px',
+        }} onClick={() => this.setState({coinToSend: null})}>Cancel</button>
+      </form>);
+    } else {
+      return (
+        <div>
+          <div className="content mr-auto ml-auto" style={{ width: "500px"}}>
+            <table style={{marginBottom: '12px'}}>
+              <thead>
+                <tr>
+                  <th style={{width: "200px"}}>Wallet Address</th>
+                  <th style={{width: "200px"}}>Token</th>
+                  <th style={{width: "200px"}}>Balance</th>
+                  <th style={{width: "200px"}}>Send</th>
+                </tr>
+              </thead>
+              <tr>
+                <td>
+                  <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    <h6 style={{ width: "200px", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>{this.state.wallet?.address}</h6>
+                  </div>
+                </td>
+                <td>
+                    PHOTON
+                </td>
+                <td>
+                  {parseFloat(this.state.photonBalance).toFixed(4)}
+                </td>
+                <td><button className="btn btn-primary btn-block" onClick={() => this.setState({coinToSend: 'photon'})}>Send</button></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>OTT</td>
+                <td>{parseFloat(this.state.ottBalance).toFixed(4)}</td>
+                <td><button className="btn btn-primary btn-block" onClick={() => this.setState({coinToSend: 'ottcoin'})}>Send</button></td>
+              </tr>
+            </table>
+            <a
+              className="App-link"
+              href="http://onlyalt.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+
+              BUY YOUR NFT <u><b>NOW! </b></u>
+            </a>
             
-                <h3>{parseFloat(this.state.photonBalance).toFixed(4)} PHOTON</h3>
-                <h3>{parseFloat(this.state.ottBalance).toFixed(4)} OTT</h3>
-                
-                <form onSubmit={(event) => {
-                  event.preventDefault()
-                  const recipient = this.recipient.value
-                  const amount = this.amount.value
-                  this.transferNativeCoin(this.state.wallet, recipient, amount)
-                }}>
-                  <div className="form-group mr-sm-2">
-                    <input
-                      id="recipient"
-                      type="text"
-                      ref={(input) => { this.recipient = input }}
-                      className="form-control"
-                      placeholder="Recipient Address"
-                      required />
-                  </div>
-                  <div className="form-group mr-sm-2">
-                    <input
-                      id="amount"
-                      type="text"
-                      ref={(input) => { this.amount = input }}
-                      className="form-control"
-                      placeholder="Amount"
-                      required />
-                  </div>
-                  <button type="submit" className="btn btn-primary btn-block">Send</button>
-                </form>
-
-
-                <a
-                  className="App-link"
-                  href="http://onlyalt.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-
-                  BUY YOUR NFT <u><b>NOW! </b></u>
-                </a>
-                
-              </div>
-            </main>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 
