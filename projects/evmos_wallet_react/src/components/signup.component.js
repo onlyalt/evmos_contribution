@@ -18,7 +18,6 @@ export default class SignUp extends Component {
             address: ''
         }
         this.retrieveWalletFromMnemonic = this.retrieveWalletFromMnemonic.bind(this)
-        this.setStateLocalStorage = this.setStateLocalStorage.bind(this)
     }
 
     async retrieveWalletFromMnemonic(mnemonic){
@@ -29,10 +28,6 @@ export default class SignUp extends Component {
         const address = subNodeWallet.address
         const privateKey = subNodeWallet.privateKey
         const publicKey = subNodeWallet.publicKey
-
-        console.log(subNodeWallet.address)
-        console.log(subNodeWallet.privateKey)
-        console.log(subNodeWallet.publicKey)
 
         this.setState({ 
             mnemonic: mnemonic,
@@ -47,12 +42,6 @@ export default class SignUp extends Component {
         
     }
 
-    setStateLocalStorage(){
-        console.log(this.state)
-    }
-
-    getStetLocalStorage(){}
-
     render() {
         return (
             <form onSubmit={(event) => {
@@ -60,11 +49,18 @@ export default class SignUp extends Component {
                 const mnemonic = this.mnemonic.value
                 this.retrieveWalletFromMnemonic(mnemonic)
               }}>
-                <h3>Import Account</h3>
+                <h3 style={{
+                    marginBottom: '12px',
+                }}>Import Account</h3>
                 <div className="form-group">
-                    <label>Mnemonic</label>
+                    <label style={{
+                        marginBottom: '12px',
+                    }}>Mnemonic</label>
                     <input
                       id="mnemonic"
+                      style={{
+                        marginBottom: '12px',
+                      }}
                       type="text"
                       ref={(input) => { this.mnemonic = input }}
                       className="form-control"
