@@ -25,6 +25,8 @@ def index():
     current_block_number = get_latest_block_number()
     current_gas_price = get_gas_price()
     latest_blocks = [block_loader(json.loads(get_block_info_rpc(current_block_number - i))) for i in range(MAX_BLOCK_DISPLAY)]
+    latest_transactions = [transaction_loader(json.loads(get_transaction_info_rpc(item))) for sublist in [x.transactions for x in latest_blocks] for item in sublist]  # flatten list of list
+    gas_fees = [x.gas_price / 1000000000 for x in latest_transactions]
 
     validators, n_validators = get_validators()
     current_time = time.time()
@@ -37,6 +39,8 @@ def index():
         current_time=current_time,
         validators=validators,
         n_validators=n_validators,
+        latest_transactions=latest_transactions,
+        gas_fees=gas_fees,
     )
 
 

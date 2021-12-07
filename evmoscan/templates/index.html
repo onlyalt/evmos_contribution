@@ -4,8 +4,10 @@
 <div class="container">
   <div class="row mt-4 mb-4">
     <div class="col-3">
-      <h2>Gas Price</h2>
+      <h2>Current Gas Price</h2>
         {{ current_gas_price / 1000000000}} Gwei
+      <h2>Past Gas Prices</h2>
+        {{ gas_fees }} Gwei
     </div>
     <div class="col-3">
       <h2>Block Number</h2>
@@ -19,7 +21,6 @@
   <div class="row">
      <div class="col-6">
        <h3>Latest Blocks</h3>
-
        <table class="table table-striped">
          {% for block in latest_blocks %}
          <tr>
@@ -30,9 +31,7 @@
            </td>
            <td>
              <h5>Miner</h5>
-<!--             <a href="/address/{{ block.miner }}">-->
                 {{ block.miner.lower() }}
-<!--             </a>-->
              <p>
                {{ block.transactions|length }} transactions
              </p>
@@ -46,6 +45,33 @@
        </table>
      </div>
     <div class="col-6">
+      <h3>Latest Transactions</h3>
+      <table class="table table-striped">
+        {% for t in latest_transactions %}
+        <tr>
+          <td>
+            <p>
+              <strong>Address</strong>
+              <a href="/tx/{{ t.hash }}">{{ t.hash }}</a>
+            </p>
+            <p>
+              <strong>Block Number</strong>
+              <a href="/block/{{ t.block_number }}">{{ t.block_number }}</a>
+            </p>
+            <p>
+              <strong>Gas Price</strong>
+              <a>{{ t.gas_price }}</a>
+            </p>
+            <p>
+              <strong>Gas</strong>
+              <a>{{ t.gas }}</a>
+            </p>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+    <div class="col-6">
       <h3>Sample Validators</h3>
       <table class="table table-striped">
         {% for validator in validators %}
@@ -57,7 +83,7 @@
             </p>
             <p>
               <strong>Tokens</strong>
-              {{ validator.tokens }}</a>
+              <a>{{ validator.tokens }}</a>
             </p>
           </td>
         </tr>
