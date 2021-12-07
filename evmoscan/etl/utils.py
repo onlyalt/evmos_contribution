@@ -3,7 +3,7 @@ import requests
 import json
 
 # RPC_ENDPOINT = 'http://localhost:8545'
-RPC_ENDPOINT = 'https://ethereum.rpc.evmos.dev/'
+RPC_ENDPOINT = 'https://evmos-testnet.gateway.pokt.network/v1/lb/61ac07b995d548003aedf5ee/'
 
 
 @backoff.on_exception(backoff.constant, Exception, interval=0, max_tries=2)
