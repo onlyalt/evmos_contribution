@@ -28,6 +28,9 @@ def index():
     latest_transactions = [transaction_loader(json.loads(get_transaction_info_rpc(item))) for sublist in [x.transactions for x in latest_blocks] for item in sublist]  # flatten list of list
     gas_fees = [x.gas_price / 1000000000 for x in latest_transactions]
 
+    avg_block_time = (latest_blocks[0].timestamp -  latest_blocks[-1].timestamp) / (len(latest_blocks) - 1)
+    tps = len(latest_transactions) / (latest_blocks[0].timestamp -  latest_blocks[-1].timestamp)
+
     validators, n_validators = get_validators()
     current_time = time.time()
     return render_template(
@@ -41,6 +44,8 @@ def index():
         n_validators=n_validators,
         latest_transactions=latest_transactions,
         gas_fees=gas_fees,
+        avg_block_time=avg_block_time,
+        tps=tps,
     )
 
 
