@@ -1,7 +1,7 @@
 require('dotenv').config();
 require("@nomiclabs/hardhat-waffle");
 
-const PRIVATE_KEY = process.env.EMILE_EVMOS_1_KEY;
+const PRIVATE_KEY = process.env.ALT_KEY;
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -20,7 +20,7 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  defaultNetwork: "hardhat",
+  defaultNetwork: "evmos_local",
   networks: {
     hardhat: {
       from: '0xdd2fd4581271e230360230f9337d5c0430bf44c0',
