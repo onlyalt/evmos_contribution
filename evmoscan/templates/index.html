@@ -6,6 +6,8 @@
     <div class="col-3">
       <h2>Current Gas Price</h2>
         {{ current_gas_price / 1000000000}} Gwei
+    </div>
+    <div class="col-3">
       <h2>Past Gas Prices</h2>
         {{ gas_fees }} Gwei
     </div>
@@ -16,6 +18,14 @@
     <div class="col-3">
       <h2>Total Validators</h2>
         {{ n_validators }}
+    </div>
+    <div class="col-3">
+      <h2>Avg Block Time</h2>
+        {{ avg_block_time }}
+    </div>
+    <div class="col-3">
+      <h2>Transaction TPS</h2>
+        {{ tps }}
     </div>
   </div>
   <div class="row">
