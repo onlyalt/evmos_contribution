@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h3>Tracers</h3>
+{% for t in ['4byteTracer', 'bigramTracer', 'callTracer', 'evmdisTracer', 'opcountTracer', 'prestateTracer', 'trigramTracer', 'unigramTracer'] %}
+<form action="/{{hash}}/{{t}}">
+    <input type="submit" value={{t}} />
+</form>
+{% endfor %}
+
+{% endblock%}
