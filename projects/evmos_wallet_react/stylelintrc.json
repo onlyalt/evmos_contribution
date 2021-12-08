@@ -1,0 +1,23 @@
+{
+  "rules": {
+    "rule-empty-line-before": "always",
+    "max-nesting-depth": 10,
+    "no-descending-specificity": null,
+    "property-no-unknown": [
+      true,
+      {
+        "ignoreProperties": ["user-drag", "font-smooth"]
+      }
+    ],
+    "selector-pseudo-element-no-unknown": [
+      true,
+      {
+        "ignorePseudoElements": ["v-deep"]
+      }
+    ],
+    "indentation": 2,
+    "no-empty-source": true,
+    "block-closing-brace-empty-line-before": "never",
+    "declaration-colon-space-after": "always-single-line"
+  }
+}

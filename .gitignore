@@ -73,7 +73,6 @@ __pycache__/
 venv/
 .cache/
 .pytest_cache/
-src/
 .ipynb_checkpoints/
 
 ###################################
