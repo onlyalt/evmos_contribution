@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import {ADDRESS_OTT_CONTRACT, RPC_ENDOINT, MNEMONIC} from '../constants'
 const { ethers } = require("ethers");
 
 export default class SignUp extends Component {
 
     async componentDidMount() {
-        const provider = new ethers.providers.JsonRpcProvider(RPC_ENDOINT);
       }
 
     constructor(props) {
@@ -35,7 +33,6 @@ export default class SignUp extends Component {
             publicKey: publicKey,
             address: address
           }, () => {
-            console.log(this.state);
             localStorage.setItem('wallet', JSON.stringify(this.state));
             alert(`Address ${address} added to Wallet in localStorage.`)
           }); 
