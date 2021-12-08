@@ -2,7 +2,7 @@ import sqlite3
 import time
 import os
 
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 from evmoscan.etl.utils import *
 
 DB_FILE_PATH = os.getenv('DB_FILE_PATH')
@@ -59,7 +59,14 @@ def validator(addr):
 @app.route("/tx/<hash>")
 def transaction(hash):
     transaction_ = transaction_loader(json.loads(get_transaction_info_rpc(hash)))
-    return render_template("transaction.html", transaction=transaction_)
+    traces = trace_tx(hash)['calls']
+    return render_template("transaction.html", transaction=transaction_, traces=traces)
+
+
+@app.route("/tx/<hash>/<tracer>")
+def tracer(hash, tracer):
+    traces = trace_tx(hash, tracer_name=tracer)
+    return jsonify(traces)
 
 
 @app.route("/block/<block_number>")

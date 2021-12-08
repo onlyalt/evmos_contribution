@@ -31,6 +31,12 @@ def get_gas_price(rpc: str = RPC_ENDPOINT) -> int:
     return int(json.loads(res.text)['result'], 16)
 
 
+def trace_tx(tx_hash: str, tracer_name: str='callTracer', rpc: str = RPC_ENDPOINT) -> dict:
+    res = requests.post(rpc, data=f'{{"jsonrpc":"2.0","method":"debug_traceTransaction","params":["{tx_hash}", {{"tracer": "{tracer_name}"}}],"id":1}}', headers={'Content-Type': 'application/json'})
+    res.raise_for_status()
+    return json.loads(res.text)['result']
+
+
 def get_validators():
     res = requests.get('https://evmos-api.mercury-nodes.net/cosmos/staking/v1beta1/validators')
     res.raise_for_status()

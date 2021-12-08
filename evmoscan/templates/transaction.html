@@ -46,4 +46,11 @@
     </tr>
 </table>
 
+<h3>Tracers</h3>
+{% for t in ['4byteTracer', 'bigramTracer', 'callTracer', 'evmdisTracer', 'opcountTracer', 'prestateTracer', 'trigramTracer', 'unigramTracer'] %}
+<form action="/tx/{{transaction.hash}}/{{t}}">
+    <input type="submit" value={{t}} />
+</form>
+{% endfor %}
+
 {% endblock%}
