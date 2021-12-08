@@ -59,8 +59,7 @@ def validator(addr):
 @app.route("/tx/<hash>")
 def transaction(hash):
     transaction_ = transaction_loader(json.loads(get_transaction_info_rpc(hash)))
-    traces = trace_tx(hash)['calls']
-    return render_template("transaction.html", transaction=transaction_, traces=traces)
+    return render_template("transaction.html", transaction=transaction_)
 
 
 @app.route("/tx/<hash>/<tracer>")
