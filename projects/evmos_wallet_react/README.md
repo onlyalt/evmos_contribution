@@ -10,6 +10,7 @@ Crypto Wallet with following functionalities:
 Play around with the faucet and the Otter NFT minting page to see your portfolio changes !
 
 Mint your own Otter and try to collect the super rare F1 Driver! Sending the Otter to another account will change its appaearance !
+
 ![otternftbanner](https://user-images.githubusercontent.com/44973056/145156428-7e7008fd-17e6-4119-be18-a2d130152726.png)
 
 
