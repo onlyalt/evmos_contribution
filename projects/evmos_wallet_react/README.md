@@ -15,3 +15,5 @@ Play around with the faucet and the Otter NFT minting page to see your portfolio
 ```npm install```
 
 ```npm start```
+
+![otternftbanner](https://user-images.githubusercontent.com/44973056/145156428-7e7008fd-17e6-4119-be18-a2d130152726.png)
