@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import erc20 from '../abis/erc20.json'
 import {ADDRESS_OTT_CONTRACT, RPC_ENDPOINT} from '../constants'
-import {loadWallet, verifySignUp} from './helpers'
+import {loadWallet} from './helpers'
 import Web3 from 'web3';
 const { ethers } = require("ethers");
 
@@ -95,7 +95,6 @@ class App extends Component {
       let response = await erc20Contract.transfer(recipient, numberOfTokens, transactionOptions)
       let transactionHash = response.hash;
       alert(`TransactionHash: ${transactionHash}`)
-      console.log(transactionHash);
     } catch(err) {
       // catches errors both in fetch and response.json
       console.log(err)
@@ -122,7 +121,6 @@ class App extends Component {
     try {
       const response = await wallet.sendTransaction(tx);
       const transactionHash = response.hash;
-      console.log(transactionHash);
       alert(`TransactionHash: ${transactionHash}`)
     } catch(err) {
       console.log(err)

@@ -5,43 +5,6 @@ const { ethers } = require("ethers");
 
 export default class SignUp extends Component {
 
-    async componentDidMount() {
-        /*const privKey = 'privKey'
-        const password = 'password'
-        const [encryptedPrivKey, salt, iv] = this.createEncryptedStateKey(privKey, password)
-        console.log('encrypted priv key')
-        console.log(encryptedPrivKey)
-        const retrievedEncryptionKey = this.retrieveEncryptionKey(password, salt)
-        console.log('retrieved encryptio')
-        console.log(retrievedEncryptionKey)
-        const decrypted = this.decodeUserPrivateKey(encryptedPrivKey, retrievedEncryptionKey, iv)
-        console.log('decrypted')
-        console.log(decrypted)
-
-        console.log(iv)
-        localStorage.setItem('iv', JSON.stringify(iv));
-        const afteriv = JSON.parse(localStorage.getItem('iv'));
-        console.log(afteriv)
-
-        console.log(salt)
-        localStorage.setItem('salt', JSON.stringify(salt));
-        const aftersalt = JSON.parse(localStorage.getItem('salt'));
-        console.log(aftersalt)
-
-        console.log(encryptedPrivKey)
-        localStorage.setItem('encryptedPrivKey', encryptedPrivKey);
-        const afterencryptedPrivKey = localStorage.getItem('encryptedPrivKey');
-        console.log(afterencryptedPrivKey)
-
-        const decryptedBIS = this.decodeUserPrivateKey(afterencryptedPrivKey, retrievedEncryptionKey, afteriv)
-        console.log(decryptedBIS)*/
-        
-      }
-
-    constructor(props) {
-        super(props)
-    }
-
     getPubPrivKeyFromMnemonic(mnemonic){
         try{
             const hdNode = ethers.utils.HDNode.fromMnemonic(mnemonic);

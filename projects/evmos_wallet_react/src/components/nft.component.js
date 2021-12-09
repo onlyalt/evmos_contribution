@@ -92,7 +92,6 @@ class App extends Component {
         let response = await erc721Contract["safeTransferFrom(address,address,uint256)"](wallet.address, recipient, web3.utils.hexToNumber(tokenId))
         let transactionHash = response.hash;
         alert(`TransactionHash: ${transactionHash}`)
-        console.log(transactionHash);
       } catch(err) {
         // catches errors both in fetch and response.json
         console.log(err)

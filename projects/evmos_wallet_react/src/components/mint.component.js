@@ -18,7 +18,6 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    const encryptedPrivKey = localStorage.getItem('encryptedPrivKey');
   }
   
 
@@ -42,7 +41,6 @@ class App extends Component {
       let response = await erc721Contract.mintOtter(recipient, {value: ethers.utils.parseEther(value)})
       let transactionHash = response.hash;
       alert(`TransactionHash: ${transactionHash}`)
-      console.log(transactionHash);
     } catch(err) {
       // catches errors both in fetch and response.json
       console.log(err)
@@ -54,7 +52,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <img src="https://om-nft.s3.us-east-2.amazonaws.com/otternftbanner.png" id="bannerImage"/>
+        <img alt="" src="https://om-nft.s3.us-east-2.amazonaws.com/otternftbanner.png" id="bannerImage"/>
         <form onSubmit={(event) => {
                 event.preventDefault()
                 verifySignUp()

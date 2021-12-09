@@ -2,8 +2,9 @@ import {loadAndDecodeEncryptedKey} from './crypto';
 const { ethers } = require("ethers");
 
 const loadWallet = (password, rpc) => {
+    const provider = new ethers.providers.JsonRpcProvider(rpc);
     const decryptedPrivateKey = loadAndDecodeEncryptedKey(password);
-    const wallet = new ethers.Wallet(decryptedPrivateKey, rpc);
+    const wallet = new ethers.Wallet(decryptedPrivateKey, provider);
 
     return wallet
   }

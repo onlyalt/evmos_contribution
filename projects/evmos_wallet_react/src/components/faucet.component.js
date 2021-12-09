@@ -45,7 +45,6 @@ class App extends Component {
       let response = await erc20Contract.transfer(recipient, numberOfTokens, transactionOptions)
       let transactionHash = response.hash;
       alert(`TransactionHash: ${transactionHash}`)
-      console.log(transactionHash);
     } catch(err) {
       // catches errors both in fetch and response.json
       console.log(err)
