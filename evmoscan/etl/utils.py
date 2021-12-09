@@ -179,7 +179,7 @@ def transaction_loader(tx: dict) -> Block:
         created_to=result['to'],
         gas=int(result['gas'], 16),
         gas_price=int(result['gasPrice'], 16),
-        max_fee_per_gas=int(result['maxFeePerGas'], 16),
+        max_fee_per_gas=int(result.get('maxFeePerGas'), 16) if result.get('maxFeePerGas') else None,
         max_priority_fee_per_gas=int(result['maxPriorityFeePerGas'], 16),
         hash=result['hash'],
         value=int(result['value'], 16)
