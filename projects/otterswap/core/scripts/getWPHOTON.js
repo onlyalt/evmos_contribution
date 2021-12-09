@@ -9,12 +9,12 @@ async function main() {
   const wPhoton = token.attach(WPHOTON_ADDRESS)
   const totalSupply = await wPhoton.totalSupply()
   console.log("Total Supply: " + totalSupply)
-  console.log('Depositing wPHOTON:' + ethers.utils.parseEther('0.000001'));
-  //const depositTx = await wPhoton.deposit({value: ethers.utils.parseEther('0.000001')})
-  //console.log(depositTx);
+  console.log('Depositing wPHOTON:' + ethers.utils.parseEther('0.00001'));
+  const depositTx = await wPhoton.deposit({value: ethers.utils.parseEther('0.00001')})
+  console.log(depositTx);
   const totalSupplyAfterTrade = await wPhoton.totalSupply()
   console.log("Total Supply: " + totalSupplyAfterTrade)
-  const withdrawTx = await wPhoton.withdraw(ethers.utils.parseEther('0.000001'))
+  const withdrawTx = await wPhoton.withdraw(ethers.utils.parseEther('0.00001'))
   console.log(withdrawTx)
   const totalSupplyAfterWithdrawal = await wPhoton.totalSupply()
   console.log("Total Supply: " + totalSupplyAfterWithdrawal)
