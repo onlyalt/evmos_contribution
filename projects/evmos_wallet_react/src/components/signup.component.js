@@ -1,41 +1,37 @@
 import React, { Component } from "react";
+import { createEncryptedStateKey } from './crypto';
 const { ethers } = require("ethers");
+
 
 export default class SignUp extends Component {
 
-    async componentDidMount() {
-      }
+    getPubPrivKeyFromMnemonic(mnemonic){
+        try{
+            const hdNode = ethers.utils.HDNode.fromMnemonic(mnemonic);
+            const subNode = hdNode.derivePath(`m/44'/60'/0'/0/0`);
+            const subNodeWallet = new ethers.Wallet(subNode);
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            password: '',
-            mnemonic: '',
-            privateKey: '',
-            publicKey: '',
-            address: ''
+            const unencryptedState = {
+                address: subNodeWallet.address,
+                privateKey: subNodeWallet.privateKey,
+                publicKey: subNodeWallet.publicKey
+            }
+            return unencryptedState
+        } catch(err){
+            alert('Impossible to load wallet. Make sure you entered a valid BIP-39 mnemonic.')
         }
-        this.retrieveWalletFromMnemonic = this.retrieveWalletFromMnemonic.bind(this)
     }
 
-    async retrieveWalletFromMnemonic(mnemonic){
-        const hdNode = ethers.utils.HDNode.fromMnemonic(mnemonic);
-        const subNode = hdNode.derivePath(`m/44'/60'/0'/0/0`);
-        const subNodeWallet = new ethers.Wallet(subNode);
+    encryptAndStoreFromMnemonic(mnemonic, password){
+        const unencryptedState = this.getPubPrivKeyFromMnemonic(mnemonic)
+        const [encryptedPrivKey, salt, iv] = createEncryptedStateKey(unencryptedState.privateKey, password)
 
-        const address = subNodeWallet.address
-        const privateKey = subNodeWallet.privateKey
-        const publicKey = subNodeWallet.publicKey
+        localStorage.setItem('salt', JSON.stringify(salt));
+        localStorage.setItem('iv', JSON.stringify(iv));
+        localStorage.setItem('encryptedPrivKey', encryptedPrivKey);
+        localStorage.setItem('address', unencryptedState.address);
 
-        this.setState({ 
-            mnemonic: mnemonic,
-            privateKey: privateKey,
-            publicKey: publicKey,
-            address: address
-          }, () => {
-            localStorage.setItem('wallet', JSON.stringify(this.state));
-            alert(`Address ${address} added to Wallet in localStorage.`)
-          }); 
+        alert(`\nPrivate Key salted and encrypted in localStorage on client side. Nothing is exported on our servers.\n\nYou will need your password to perform transactions.\n\nAdress added: ${unencryptedState.address}.`)
         
     }
 
@@ -44,7 +40,14 @@ export default class SignUp extends Component {
             <form onSubmit={(event) => {
                 event.preventDefault()
                 const mnemonic = this.mnemonic.value
-                this.retrieveWalletFromMnemonic(mnemonic)
+                const password1 = this.password1.value
+                const password2 = this.password2.value
+                if (password1 === password2) {
+                    this.encryptAndStoreFromMnemonic(mnemonic, password1)
+                } else {
+                    alert('Passwords are not matching')
+                }
+                
               }}>
                 <h3 style={{
                     marginBottom: '12px',
@@ -58,10 +61,33 @@ export default class SignUp extends Component {
                       style={{
                         marginBottom: '12px',
                       }}
-                      type="text"
+                      type="password"
                       ref={(input) => { this.mnemonic = input }}
                       className="form-control"
-                      placeholder="Mnemonic"
+                      placeholder="Import your Evmos Mnemonic"
+                      required />
+                    <label style={{
+                        marginBottom: '12px',
+                    }}>Password</label>
+                    <input
+                      id="password"
+                      style={{
+                        marginBottom: '12px',
+                      }}
+                      type="password"
+                      ref={(input) => { this.password1 = input }}
+                      className="form-control"
+                      placeholder="Choose a Password for your account"
+                      required />
+                    <input
+                      id="password"
+                      style={{
+                        marginBottom: '12px',
+                      }}
+                      type="password"
+                      ref={(input) => { this.password2 = input }}
+                      className="form-control"
+                      placeholder="Repeat Password"
                       required />
                 </div>
 

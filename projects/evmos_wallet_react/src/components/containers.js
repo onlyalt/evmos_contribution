@@ -6,7 +6,7 @@ const Image = (props) => {
             marginBottom: '12px',
         }}>
             <div id="myImage" style={{display: "inline"}}>
-                <img src={props.url} id="myImage"/>
+                <img alt="" src={props.url} id="myImage"/>
             </div>
             <div id="texts" style={{display:"inline"}}> 
                 <p style={{display:"inline"}}>{props.name} </p>
