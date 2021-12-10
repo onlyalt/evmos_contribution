@@ -1,4 +1,3 @@
-import { useHistory } from 'react-router-dom';
 import React, { Component } from "react";
 import { createEncryptedStateKey } from './crypto';
 const { ethers } = require("ethers");
@@ -42,10 +41,11 @@ export default class SignUp extends Component {
     }
 
     encryptAndStore(input, password, importMethod){
+        let unencryptedState;
         if (importMethod === 'Evmos Mnemonic'){
-            var unencryptedState = this.getPubPrivKeyFromMnemonic(input)
+            unencryptedState = this.getPubPrivKeyFromMnemonic(input)
         } else if (importMethod === 'ETH Private Key') {
-            var unencryptedState = this.getPubPrivKeyFromPrivKey(input)
+            unencryptedState = this.getPubPrivKeyFromPrivKey(input)
         }
         
         const [encryptedPrivKey, salt, iv] = createEncryptedStateKey(unencryptedState.privateKey, password)
