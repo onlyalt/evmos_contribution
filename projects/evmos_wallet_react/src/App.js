@@ -1,7 +1,7 @@
 import React from 'react';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
 
 import Transfer from "./components/portfolio.component";
 import SignUp from "./components/signup.component";
@@ -18,7 +18,7 @@ function App() {
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <Link className="nav-link" to={"/sign-up"}>Sign up</Link>
+                <Link className="nav-link" to={"/signup"}>Sign up</Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to={"/wallet"}>Portfolio</Link>
@@ -40,9 +40,12 @@ function App() {
       <div className="auth-wrapper">
         <div className="auth-inner" style={{ width: "700px"}}>
           <Switch>
+            <Route exact path="/">
+              <Redirect to="/signup" />
+            </Route>
+            <Route path="/signup" component={SignUp} />
             <Route exact path='/wallet' component={Transfer} />
             <Route path="/nft" component={NFTPage} />
-            <Route path="/sign-up" component={SignUp} />
             <Route path="/mint" component={MintPage} />
             <Route path="/faucet" component={FaucetPage} />
           </Switch>

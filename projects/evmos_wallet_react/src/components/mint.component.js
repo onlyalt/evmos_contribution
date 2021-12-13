@@ -12,7 +12,7 @@ class App extends Component {
     super(props)
     this.state = {
       address: localStorage.getItem('address'),
-      otterValue: "0.1"
+      otterValue: "0.003"
     }
     this.loadWalletAndMintOtter = this.loadWalletAndMintOtter.bind(this)
   }
@@ -63,7 +63,7 @@ class App extends Component {
                 <div className="form-group">
                     <label style={{
                         marginBottom: '6px',
-                    }}>Price: {this.state.otterValue} PHOTONS</label>
+                    }}>Price: {this.state.otterValue} Photon</label>
                     <input
                       id="address"
                       style={{
