@@ -1,7 +1,8 @@
 import React from 'react';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { Navbar, Nav, Container } from 'react-bootstrap';
 
 import Transfer from "./components/portfolio.component";
 import SignUp from "./components/signup.component";
@@ -12,30 +13,20 @@ import FaucetPage from "./components/faucet.component";
 function App() {
   return (<Router>
     <div className="App">
-      <nav className="navbar navbar-expand-lg navbar-light fixed-top">
-        <div className="container">
-          <Link className="navbar-brand" to={"/wallet"}>Alt Wallet</Link>
-          <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link className="nav-link" to={"/signup"}>Sign up</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={"/wallet"}>Portfolio</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={"/nft"}>NFTs</Link>
-              </li> 
-              <li className="nav-item">
-                <Link className="nav-link" to={"/mint"}>Mint your NFT</Link>
-              </li> 
-              <li className="nav-item">
-                <Link className="nav-link" to={"/faucet"}>OTT Faucet</Link>
-              </li> 
-            </ul>
-          </div>
-        </div>
-      </nav>
+      <Navbar collapseOnSelect fixed='top' expand='sm' bg='dark' variant='dark'>
+        <Container>
+          <Navbar.Toggle aria-controls='responsive-navbar-nav' />
+          <Navbar.Collapse id='responsive-navbar-nav'>
+            <Nav>
+              <Nav.Link href='/signup'>Sign Up </Nav.Link>
+              <Nav.Link href='/wallet'>Portfolio</Nav.Link>
+              <Nav.Link href='/nft'>NFTs</Nav.Link>
+              <Nav.Link href='/mint'>Mint your NFT</Nav.Link>
+              <Nav.Link href='/faucet'>OTT Faucet</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
 
       <div className="auth-wrapper">
         <div className="auth-inner" style={{ width: "700px"}}>
