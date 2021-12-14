@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { createEncryptedStateKey } from './crypto';
+import { Redirect } from 'react-router-dom'
 import { ethToEvmos } from "@hanchon/ethermint-address-converter"
 
 const { ethers } = require("ethers");
@@ -7,16 +8,34 @@ const { ethers } = require("ethers");
 
 export default class SignUp extends Component {
 
+    componentDidMount(){
+        console.log(this.state)
+    }
+
     constructor(props) {
         super(props)
         this.state = {
             mnemonic: null,
             privKey: null,
-            hexAddress: null,
+            hexAddress: localStorage.getItem('address'),
             evmosAddress: null,
-            importMethod: null
+            importMethod: null,
+            redirect: false, 
+            connected: false
         }
+        this.disconnectAndClearCache = this.disconnectAndClearCache.bind(this)
       }
+
+    disconnectAndClearCache(){
+        localStorage.clear()
+        this.setState({
+            hexAddress: null,
+            evmosAddress:null,
+            importMethod: null,
+            redirect:null
+            }
+        )
+    }
 
     getPubPrivKeyFromMnemonic(mnemonic){
         try{
@@ -69,8 +88,10 @@ export default class SignUp extends Component {
         let unencryptedState;
         if (importMethod === 'Evmos Mnemonic'){
             unencryptedState = this.getPubPrivKeyFromMnemonic(input)
+            this.setState({redirect: true})
         } else if (importMethod === 'ETH Private Key') {
             unencryptedState = this.getPubPrivKeyFromPrivKey(input)
+            this.setState({redirect: true})
         } else if (importMethod === 'Generate') {
             unencryptedState = await this.generateWallet()
         }
@@ -81,7 +102,8 @@ export default class SignUp extends Component {
             localStorage.setItem('iv', JSON.stringify(iv));
             localStorage.setItem('encryptedPrivKey', encryptedPrivKey);
             localStorage.setItem('address', unencryptedState.address);
-            alert(`\nPrivate Key salted and encrypted in localStorage on client side. Nothing is exported on our servers.\n\nYou will need your password to perform transactions.\n\nAdress added: ${unencryptedState.address}.`)
+            alert(`\nPrivate Key salted and encrypted in localStorage on client side. Nothing is exported on our servers.\n\nYou will need your password to perform transactions.\n\nAddress added: ${unencryptedState.address}.`)
+            // Redirect user to Portfolio
         } catch(err) {
             alert('Something went wrong. Please verify that your mnemonic / private key is accurate.\n Contact emile@onlyalt.com if the problem persist.')
         }
@@ -92,166 +114,195 @@ export default class SignUp extends Component {
        
 
     render() {
-        if (this.state.importMethod) {
-            if (this.state.importMethod === 'Generate'){
-                return(
-                    <form onSubmit={(event) => {
-                        event.preventDefault()
-                        const input = ''
-                        const password1 = this.password1.value
-                        const password2 = this.password2.value
-                        if (password1 === password2) {
-                            this.encryptAndStore(input, password1, this.state.importMethod)
-                        } else {
-                            alert('Passwords are not matching')
-                        }
-                        this.setState({importMethod: 'Info'})
-                        
-                      }}>
-                        <h3 style={{
-                            marginBottom: '12px',
-                        }}>Generate Evmos Account</h3>
-                        <div className="form-group">
-                            <label style={{
+        if (this.state.redirect) {
+            return <Redirect to="/wallet"/>
+        } else {
+            if (this.state.importMethod) {
+                if (this.state.importMethod === 'Generate'){
+                    return(
+                        <form onSubmit={(event) => {
+                            event.preventDefault()
+                            const input = ''
+                            const password1 = this.password1.value
+                            const password2 = this.password2.value
+                            if (password1 === password2) {
+                                this.encryptAndStore(input, password1, this.state.importMethod)
+                            } else {
+                                alert('Passwords are not matching')
+                            }
+                            this.setState({importMethod: 'Info'})
+                            
+                            }}>
+                            <h3 style={{
                                 marginBottom: '12px',
-                            }}>Choose a Password</label>
-                            <input
-                              id="password1"
-                              style={{
-                                marginBottom: '12px',
-                              }}
-                              type="password"
-                              ref={(input) => { this.password1 = input }}
-                              className="form-control"
-                              placeholder="Choose a Password for your account"
-                              required />
-                            <input
-                              id="password2"
-                              style={{
-                                marginBottom: '12px',
-                              }}
-                              type="password"
-                              ref={(input) => { this.password2 = input }}
-                              className="form-control"
-                              placeholder="Repeat Password"
-                              required />
-                        </div>
-        
-                        <button type="submit" className="btn btn-primary btn-block" style={{marginBottom: '12px', marginRight: '12px'}}>Import</button>
-                        <button type="submit" className="btn btn-secondary btn-block" style={{marginBottom: '12px'}} onClick={() => this.setState({importMethod: null})}>Cancel</button>
-                    </form>
-                )
-            } else if (this.state.importMethod === 'Info') {
-                return(
-                    <div>
-                        <h3>Save this carefully</h3>
-                        <p><b>Private Key</b>:</p>
-                        <p>{this.state?.privKey}</p>
-                        <p><b>Eth Address</b>:</p>
-                        <p>{this.state?.hexAddress}</p>
-                        <p><b>Evmos Address</b>:</p>
-                        <p style={{marginBottom: '40px'}}>{this.state?.evmosAddress}</p>
-                        <form action="https://faucet.evmos.org/">
-                            <input className="btn btn-primary btn-block" style={{marginBottom: '12px', marginRight: '12px' }} type="submit" value="Go to faucet" />
+                            }}>Generate Evmos Account</h3>
+                            <div className="form-group">
+                                <label style={{
+                                    marginBottom: '12px',
+                                }}>Choose a Password</label>
+                                <input
+                                    id="password1"
+                                    style={{
+                                    marginBottom: '12px',
+                                    }}
+                                    type="password"
+                                    ref={(input) => { this.password1 = input }}
+                                    className="form-control"
+                                    placeholder="Choose a Password for your account"
+                                    required />
+                                <input
+                                    id="password2"
+                                    style={{
+                                    marginBottom: '12px',
+                                    }}
+                                    type="password"
+                                    ref={(input) => { this.password2 = input }}
+                                    className="form-control"
+                                    placeholder="Repeat Password"
+                                    required />
+                            </div>
+            
+                            <button type="submit" className="btn btn-primary btn-block" style={{marginBottom: '12px', marginRight: '12px'}}>Import</button>
                             <button type="submit" className="btn btn-secondary btn-block" style={{marginBottom: '12px'}} onClick={() => this.setState({importMethod: null})}>Cancel</button>
                         </form>
-                        
-                    </div>
-                )
-
-            }else {
-                return (
-                    <form onSubmit={(event) => {
-                        event.preventDefault()
-                        const input = this.input.value
-                        const password1 = this.password1.value
-                        const password2 = this.password2.value
-                        if (password1 === password2) {
-                            this.encryptAndStore(input, password1, this.state.importMethod)
-                        } else {
-                            alert('Passwords are not matching')
-                        }
-                        
-                      }}>
-                        <h3 style={{
-                            marginBottom: '12px',
-                        }}>Import {this.state.importMethod}</h3>
-                        <div className="form-group">
-                            <label style={{
-                                marginBottom: '12px',
-                            }}>{this.state.importMethod}</label>
-                            <input
-                              id="mnemonic"
-                              style={{
-                                marginBottom: '12px',
-                              }}
-                              type="password"
-                              ref={(input) => { this.input = input }}
-                              className="form-control"
-                              placeholder={this.state.importMethod}
-                              required />
-                            <label style={{
-                                marginBottom: '12px',
-                            }}>Password</label>
-                            <input
-                              id="password1"
-                              style={{
-                                marginBottom: '12px',
-                              }}
-                              type="password"
-                              ref={(input) => { this.password1 = input }}
-                              className="form-control"
-                              placeholder="Choose a Password for your account"
-                              required />
-                            <input
-                              id="password2"
-                              style={{
-                                marginBottom: '12px',
-                              }}
-                              type="password"
-                              ref={(input) => { this.password2 = input }}
-                              className="form-control"
-                              placeholder="Repeat Password"
-                              required />
+                    )
+                } else if (this.state.importMethod === 'Info') {
+                    return(
+                        <div>
+                            <h3>Save this carefully</h3>
+                            <p><b>Private Key</b>:</p>
+                            <p>{this.state?.privKey}</p>
+                            <p><b>Eth Address</b>:</p>
+                            <p>{this.state?.hexAddress}</p>
+                            <p><b>Evmos Address</b>:</p>
+                            <p style={{marginBottom: '40px'}}>{this.state?.evmosAddress}</p>
+                            <form onSubmit={() => {
+                                window.open("https://faucet.evmos.org/", "_blank")}}>
+                                <input className="btn btn-primary btn-block" style={{marginBottom: '12px', marginRight: '12px' }} type="submit" value="Go to faucet"/>
+                                <button type="submit" className="btn btn-secondary btn-block" style={{marginBottom: '12px'}} onClick={() => this.setState({importMethod: null})}>Cancel</button>
+                            </form>
+                            
                         </div>
-        
-                        <button type="submit" className="btn btn-primary btn-block" style={{marginBottom: '12px', marginRight: '12px'}}>Import</button>
-                        <button type="submit" className="btn btn-secondary btn-block" style={{marginBottom: '12px'}} onClick={() => this.setState({importMethod: null})}>Cancel</button>
-                    </form>
-                );
-            }          
-        } else {
-            return(
-                <div>
-                    
+                    )
+    
+                }else {
+                    return (
+                        <form onSubmit={(event) => {
+                            event.preventDefault()
+                            const input = this.input.value
+                            const password1 = this.password1.value
+                            const password2 = this.password2.value
+                            if (password1 === password2) {
+                                this.encryptAndStore(input, password1, this.state.importMethod)
+                            } else {
+                                alert('Passwords are not matching')
+                            }
+                            
+                            }}>
+                            <h3 style={{
+                                marginBottom: '12px',
+                            }}>Import {this.state.importMethod}</h3>
+                            <div className="form-group">
+                                <label style={{
+                                    marginBottom: '12px',
+                                }}>{this.state.importMethod}</label>
+                                <input
+                                    id="mnemonic"
+                                    style={{
+                                    marginBottom: '12px',
+                                    }}
+                                    type="password"
+                                    ref={(input) => { this.input = input }}
+                                    className="form-control"
+                                    placeholder={this.state.importMethod}
+                                    required />
+                                <label style={{
+                                    marginBottom: '12px',
+                                }}>Password</label>
+                                <input
+                                    id="password1"
+                                    style={{
+                                    marginBottom: '12px',
+                                    }}
+                                    type="password"
+                                    ref={(input) => { this.password1 = input }}
+                                    className="form-control"
+                                    placeholder="Choose a Password for your account"
+                                    required />
+                                <input
+                                    id="password2"
+                                    style={{
+                                    marginBottom: '12px',
+                                    }}
+                                    type="password"
+                                    ref={(input) => { this.password2 = input }}
+                                    className="form-control"
+                                    placeholder="Repeat Password"
+                                    required />
+                            </div>
+            
+                            <button type="submit" className="btn btn-primary btn-block" style={{marginBottom: '12px', marginRight: '12px'}} >Import</button>
+                            <button type="submit" className="btn btn-secondary btn-block" style={{marginBottom: '12px'}} onClick={() => this.setState({importMethod: null})}>Cancel</button>
+                        </form>
+                    );
+                }          
+            } else {
+                if (this.state?.hexAddress) {
+                    return(
+                        <div>
+                            <div>
+                                <h3 style={{
+                                    marginBottom: '12px',
+                                }}>Initialize Account</h3>
+                                <p style={{marginBottom: '30px'}}> You are already connected with address {this.state.hexAddress}</p>
+                                <button type="submit" className="btn btn-primary black bg-gray" style={{
+                                    marginBottom: '30px',
+                                    marginRight: '12px',
+                                    }} onClick={() => this.disconnectAndClearCache()}>Disconnect</button>
+                            </div>                       
+                        </div>
+                    )
+                            } else {
+                                return(
+                                    <div>
+                                        
+                                    
+                                        <div>
+                                            <h3 style={{
+                                                marginBottom: '12px',
+                                            }}>Initialize Account</h3>
+                                            <button type="submit" className="btn btn-primary btn-block" style={{
+                                    marginBottom: '30px',
+                                    marginRight: '12px',
+                                    }} onClick={() => this.setState({importMethod: 'Generate'})}>Generate Account</button>
+                                            <button type="submit" className="btn btn-primary btn-block" style={{
+                                    marginBottom: '30px',
+                                    marginRight: '12px',
+                                    }} onClick={() => this.setState({importMethod: 'Evmos Mnemonic'})}>Import Evmos Mnemonic</button>
+                                    <button type="submit" className="btn btn-primary btn-block" style={{
+                                    marginBottom: '30px',
+                                    }} onClick={() => this.setState({importMethod: 'ETH Private Key'})}>Import ETH Private Key</button>
+                                        </div>
+                                        <div>
+                                            <ol>
+                                                <li> <b>Generate Account:</b> Generate an account from scratch</li>
+                                                <li> <b>Import Evmos Mnemonic:</b> If you created your wallet through <code>evmosd keys add</code> command</li>
+                                                <li> <b>Import ETH Private Key:</b> You can retrieve it through Metamask or using <code>evmosd keys unsafe-export-eth-key</code> command</li>
+                                            </ol>
+                                        </div>
+                                    
+                                    </div>
+                                )
+
+
+                            }
                 
-                    <div>
-                        <h3 style={{
-                            marginBottom: '12px',
-                        }}>Initialize Account</h3>
-                        <button type="submit" className="btn btn-primary btn-block" style={{
-                marginBottom: '30px',
-                marginRight: '12px',
-                }} onClick={() => this.setState({importMethod: 'Generate'})}>Generate Account</button>
-                        <button type="submit" className="btn btn-primary btn-block" style={{
-                marginBottom: '30px',
-                marginRight: '12px',
-                }} onClick={() => this.setState({importMethod: 'Evmos Mnemonic'})}>Import Evmos Mnemonic</button>
-                <button type="submit" className="btn btn-primary btn-block" style={{
-                marginBottom: '30px',
-                }} onClick={() => this.setState({importMethod: 'ETH Private Key'})}>Import ETH Private Key</button>
-                    </div>
-                    <div>
-                        <ol>
-                            <li> <b>Generate Account:</b> Generate an account from scratch</li>
-                            <li> <b>Import Evmos Mnemonic:</b> If you created your wallet through <code>evmosd keys add</code> command</li>
-                            <li> <b>Import ETH Private Key:</b> You can retrieve it through Metamask or using <code>evmosd keys unsafe-export-eth-key</code> command</li>
-                        </ol>
-                    </div>
-                
-                </div>
-            )
+            }
+            
         }
-        
+
+        }
+
     }
-}
+    
+    

@@ -43,6 +43,9 @@ function App() {
             <Route exact path="/">
               <Redirect to="/signup" />
             </Route>
+            <Route exact path="/sign-up">
+              <Redirect to="/signup" />
+            </Route>
             <Route path="/signup" component={SignUp} />
             <Route exact path='/wallet' component={Transfer} />
             <Route path="/nft" component={NFTPage} />
