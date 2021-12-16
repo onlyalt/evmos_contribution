@@ -57,7 +57,6 @@ class App extends Component {
       <form onSubmit={(event) => {
         event.preventDefault()
         const recipient = this.recipient.value
-        console.log(this.state?.walletFaucet)
         this.transferErc20Coin(this.state?.walletFaucet,recipient, "100")
       }}>
         <h3>OTT Faucet </h3>

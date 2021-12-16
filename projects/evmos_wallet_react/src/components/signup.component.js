@@ -8,10 +8,6 @@ const { ethers } = require("ethers");
 
 export default class SignUp extends Component {
 
-    componentDidMount(){
-        console.log(this.state)
-    }
-
     constructor(props) {
         super(props)
         this.state = {
