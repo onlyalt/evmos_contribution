@@ -1,17 +1,14 @@
 require("dotenv").config();
+import {COSMOS_ADDRESS,
+    privKey,
+    apiKey} from './constants'
 
 const gravity = require('../abis/Gravity.json')
 const erc20 = require('../abis/erc20.json')
 const { ethers } = require("ethers");
 
-const privKey = '4269b495eaf8f84a23fedf5d0faf401abe4af415cc7fd1712537f9b6321f0765'
-const apiKey = 'REIidoLUMg_q_4DaNgKa3bMI5pbRseSO'
-console.log(privKey)
-console.log(apiKey)
-
 const GRAVITY_BRIDGE_ADDRESS = '0xa4108aA1Ec4967F8b52220a4f7e94A8201F2D906'
 const WETH_ADDRESS = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2' 
-const COSMOS_ADDRESS = 'cosmos1al9jus3l5xxdhv7ugdankkavasqgffak9e534a'
 
 const AMOUNT = '0.003'
 const numberOfTokens = ethers.utils.parseUnits(AMOUNT, 18);
