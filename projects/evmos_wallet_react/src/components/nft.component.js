@@ -68,7 +68,8 @@ class App extends Component {
     id){
     try {
       const erc721Contract = new ethers.Contract(NFT_CONTRACT_MAP.contractAddress, erc721.abi, provider);
-      const metadataLink = await erc721Contract.tokenURI(id);
+      const _metadataLink = await erc721Contract.tokenURI(id);
+      const metadataLink = _metadataLink.replace("http://18.219.90.206:1337/","https://altnftotters.ga/")
       this.setState({metadataUrls: this.state.metadataUrls.concat(metadataLink)})
       const response = await fetch(metadataLink);
       const responseJson = await response.json();
