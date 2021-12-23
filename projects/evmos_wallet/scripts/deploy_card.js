@@ -22,7 +22,7 @@ async function main() {
     // Get contract address
     console.log("Contract deployed to:", contract.address);
 
-    // Mint 3 NFTs by sending 0.0001 ether
+    // Mint 1 NFTs by sending 0.0001 ether
     const txn = await contract.mintNFTs(1, { value: utils.parseEther('0.0001') });
     await txn.wait()
 
