@@ -1,7 +1,7 @@
 require('dotenv').config();
 require("@nomiclabs/hardhat-waffle");
 
-const PRIVATE_KEY = process.env.ALT_KEY;
+const PRIVATE_KEY = process.env.KEY;
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
