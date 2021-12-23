@@ -3,7 +3,9 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-contract Card is ERC721Enumerable, Ownable {
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
+contract Card is ERC721, ERC721Enumerable, Ownable {
     using SafeMath for uint256;
     using Counters for Counters.Counter;
 
@@ -16,6 +18,14 @@ contract Card is ERC721Enumerable, Ownable {
 
     constructor(string memory baseURI) ERC721("Demo", "Card") {
         setBaseURI(baseURI);
+    }
+
+    function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual override(ERC721, ERC721Enumerable) {
+        super._beforeTokenTransfer(from, to, amount);
+    }
+
+    function supportsInterface(bytes4 interfaceId) public view override(ERC721, ERC721Enumerable) returns (bool) {
+        return super.supportsInterface(interfaceId);
     }
 
     function _baseURI() internal view virtual override returns (string memory) {

@@ -32,7 +32,7 @@ module.exports = {
       gasPrice: 80000000
     },
     evmos_local: {
-      url: "http://localhost:8545",
+      url: "https://ethereum.rpc.evmos.dev/ ",
       accounts: [PRIVATE_KEY],
       gas: 2100000,
       gasPrice: 80000000
