@@ -11,7 +11,7 @@ contract Card is ERC721, ERC721Enumerable, Ownable {
 
     Counters.Counter private _tokenIds;
     uint public constant MAX_SUPPLY = 1;
-    uint public constant PRICE = 0.0001 ether;
+    uint public constant PRICE = 0.00001 ether;
     uint public constant MAX_PER_MINT = 1;
 
     string public baseTokenURI;
@@ -76,4 +76,32 @@ contract Card is ERC721, ERC721Enumerable, Ownable {
         (bool success, ) = (msg.sender).call{value: balance}("");
         require(success, "Transfer failed.");
     }
+
+    function uint2str(uint256 _i) internal pure returns (string memory str) {
+        if (_i == 0) {
+            return "0";
+        }
+        uint256 j = _i;
+        uint256 length;
+        while (j != 0) {
+            length++;
+            j /= 10;
+        }
+        bytes memory bstr = new bytes(length);
+        uint256 k = length;
+        j = _i;
+        while (j != 0) {
+            bstr[--k] = bytes1(uint8(48 + j % 10));
+            j /= 10;
+        }
+        str = string(bstr);
+    }
+
+    function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
+        require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
+
+        string memory baseURI = _baseURI();
+        return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, uint2str(tokenId))) : "";
+    }
+
 }

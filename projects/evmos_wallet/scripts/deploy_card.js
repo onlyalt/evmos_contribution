@@ -22,13 +22,15 @@ async function main() {
     // Get contract address
     console.log("Contract deployed to:", contract.address);
 
-    // Mint 1 NFTs by sending 0.0001 ether
-    const txn = await contract.mintNFTs(1, { value: utils.parseEther('0.0001') });
+    // Mint 1 NFTs by sending 0.00001 ether
+    const txn = await contract.mintNFTs(1, { value: utils.parseEther('0.00001') });
     await txn.wait()
 
     // Get all token IDs of the owner
     let tokens = await contract.tokensOfOwner(owner.address)
     console.log("Owner has tokens: ", tokens);
+    tokens = await contract.tokenUri(tokens[0]);
+    console.log(tokens);
 }
 
 main()
