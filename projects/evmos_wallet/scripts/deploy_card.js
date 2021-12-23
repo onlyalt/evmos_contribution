@@ -3,15 +3,18 @@ const hre = require('hardhat');
 
 async function main() {
     const baseTokenURI = "ipfs://QmPhWZugXEKTVTGj3oJQKi8bQVg4Bcx6y4PvULCrCZFjri/";
-
+    console.log(baseTokenURI);
     // Get owner/deployer's wallet address
     const [owner] = await hre.ethers.getSigners();
+    console.log(owner);
 
     // Get contract that we want to deploy
     const contractFactory = await hre.ethers.getContractFactory("Card");
+     console.log("Contract factory");
 
     // Deploy contract with the correct constructor arguments
     const contract = await contractFactory.deploy(baseTokenURI);
+    console.log("Contract");
 
     // Wait for this transaction to be mined
     await contract.deployed();
