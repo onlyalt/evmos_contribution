@@ -1,3 +1,5 @@
+After weeks of unsuccessful attempts at a mev-geth port to ethermint, we instead put some of our learnings into this informative blog post for anyone to understand MEV, with a special focus on MEV w/ PoS. Will also be added to https://www.onlyalt.com/blog :)
+
 # MEV: Miner extractable value
 
 One of the most fascinating areas of research in blockchain technology right now is MEV aka Miner (or Maximum) extractable value. At its core, MEV refers to extra value that can be accrued by those that secure a network (miners & validators), beyond what is already rewarded to them through rewards or gas fees.
