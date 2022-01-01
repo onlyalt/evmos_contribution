@@ -21,13 +21,13 @@ Most of the exploitation of MEV (97%) is currently done by bots looking to "fron
 
 3. Send a transaction bundle that includes 4 transactions through a hidden pathway. (often mev-relay)
 
-a. The bot's transaction to **BUY** 10,000 of token A at $1. (Which causes the price to increase, lets say to $1.10)
+   * The bot's transaction to **BUY** 10,000 of token A at $1. (Which causes the price to increase, lets say to $1.10)
 
-b. The retail trader's transaction to **BUY** 10,000 of token A at $1.10. (Which causes the price to further increase to $1.20)
+   * The retail trader's transaction to **BUY** 10,000 of token A at $1.10. (Which causes the price to further increase to $1.20)
 
-c. The bot's second transaction to **SELL** 10,000 of token A at $1.20.
+   * The bot's second transaction to **SELL** 10,000 of token A at $1.20.
 
-d. The bot's third transaction to **PAY** a bribe to the miner/validator (Of lets say $1000)
+   * The bot's third transaction to **PAY** a bribe to the miner/validator (Of lets say $1000)
 
 ![In 2021 these bots made a total profit of over $750,000,000 USD on Ethereum. via MEV Explore](MEVIMG/Screen_Shot_2021-12-30_at_5.32.24_PM.png)
 
@@ -53,13 +53,13 @@ Cosmos, Polkadot and Solana are three popular PoS L1 chains
 
 **Approaches and possible workarounds to MEV reduction on PoS chains:**
 
-**Solana** - 400ms between blocks leaves minimal time for validators to check every waiting transaction to determine the most profitable. More powerful proposers would still be able to optimize transaction ordering.
+**Solana** - 400ms between blocks leaves minimal time for validators to check every waiting transaction to determine the most profitable. **More powerful proposers would still be able to optimize transaction ordering.**
 
-**Polkadot** - Randomized transaction ordering by a future block proposer. The future block proposer is predetermined and can still take bribes to reorder previous blocks if they have enough computing power to break the randomization. Or multiple validators can collude.
+**Polkadot** - Randomized transaction ordering by a future block proposer. **The future block proposer is predetermined and can still take bribes to reorder previous blocks if they have enough computing power to break the randomization. Or multiple validators can collude.**
 
-**Evmos/Cosmos** - Prioritized mempool similar to Flashbots to make MEV more transparent. RED TEXT: Still increases costs for retail traders that don't want to be frontrun. With a high enough bribe off-chain (big enough frontrunning opportunity), would still be worth it to reorder transactions differently.
+**Evmos/Cosmos** - Prioritized mempool similar to Flashbots to make MEV more transparent. **Still increases costs for retail traders that don't want to be frontrun. With a high enough bribe off-chain (big enough frontrunning opportunity), would still be worth it to reorder transactions differently.**
 
-**All PoS chains** - Rewards are split among ALL validators on PoS chains, a specific block proposer is less incentivized to maximize MEV. Penalties (Slashing) are given to validators for “malicious behavior”, often not worth risking a validators stake of tokens. Proposers can accept bribe payment off-chain, wouldn't need to share with the rest of the network OR their stakers. Large enough opportunity could be worth bearing the slashing.
+**All PoS chains** - Rewards are split among ALL validators on PoS chains, a specific block proposer is less incentivized to maximize MEV. Penalties (Slashing) are given to validators for “malicious behavior”, often not worth risking a validators stake of tokens. **Proposers can accept bribe payment off-chain, wouldn't need to share with the rest of the network OR their stakers. Large enough opportunity could be worth bearing the slashing.**
 
 ## MEV in **Evmos/EVM-compatible chains**
 
