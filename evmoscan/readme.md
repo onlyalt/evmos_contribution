@@ -7,6 +7,10 @@ This block explorer intends to complete the following mission of [Evmos Incentiv
 - Build a dashboard or block explorer - 30 points
 - Build and host a UI that represent gas usage and fees across the network - 10 points
 
+Blogpost
+- [Evmoscan and ETL](https://www.onlyalt.com/blog/evmoscan-and-etl)
+
+
 ## How to run
 ```flask run```
 
