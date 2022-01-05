@@ -1,6 +1,11 @@
 # Evmoscan
 The Etherscan for Evmos.
 
+## Mars Meteor Mission
+
+This block explorer intends to complete the following mission of [Evmos Incentivized Testnet](https://evmos.blog/evmos-incentivized-testnet-event-the-mars-meteor-missions-bbbb7ffa1b7c):
+- Build a dashboard or block explorer - 30 points
+
 ## How to run
 ```flask run```
 
