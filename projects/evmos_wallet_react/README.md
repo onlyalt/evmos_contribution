@@ -6,6 +6,10 @@ This Proof of Concept Wallet intends to complete the following missions from [Ev
 - Build a wallet - 30 points
 - Build and host a UI for a verified smart contract - 15 points
 
+Blogposts
+- [Build a NFT Project on Evmos](https://www.onlyalt.com/blog/alt-otters-nft-project-on-evmos)
+- [Alt Crypto Wallet](https://www.onlyalt.com/blog/alt-crypto-wallet)
+
 
 ## Functionalities
 
