@@ -5,6 +5,7 @@ The Etherscan for Evmos.
 
 This block explorer intends to complete the following mission of [Evmos Incentivized Testnet](https://evmos.blog/evmos-incentivized-testnet-event-the-mars-meteor-missions-bbbb7ffa1b7c):
 - Build a dashboard or block explorer - 30 points
+- Build and host a UI that represent gas usage and fees across the network - 10 points
 
 ## How to run
 ```flask run```
