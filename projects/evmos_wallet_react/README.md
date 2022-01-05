@@ -1,5 +1,14 @@
 
 # Evmos Wallet
+
+## Mars Meteor Mission Evmos
+This Proof of Work wallet intends to complete the following missions from ![Evmos Incentivized testnet](https://evmos.blog/evmos-incentivized-testnet-event-the-mars-meteor-missions-bbbb7ffa1b7c):
+- Build a wallet - 30 points
+- Build and host a UI for a verified smart contract - 15 points
+
+
+## Functionalities
+
 Crypto Wallet with following functionalities:
 - Import account through BIP-39 mnemonic (```/```) - stored in client localStorage
 - See ERC20 Holdings and sign/send ERC20 transactions (```/wallet```)
