@@ -2,7 +2,7 @@
 # Evmos Wallet
 
 ## Mars Meteor Mission Evmos
-This Proof of Work wallet intends to complete the following missions from [Evmos Incentivized testnet](https://evmos.blog/evmos-incentivized-testnet-event-the-mars-meteor-missions-bbbb7ffa1b7c):
+This Proof of Concept Wallet intends to complete the following missions from [Evmos Incentivized testnet](https://evmos.blog/evmos-incentivized-testnet-event-the-mars-meteor-missions-bbbb7ffa1b7c):
 - Build a wallet - 30 points
 - Build and host a UI for a verified smart contract - 15 points
 
