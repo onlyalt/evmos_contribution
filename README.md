@@ -11,6 +11,12 @@ In the repo, you will find our contributions to the [Evmos Incentivized Testnet]
 - Build a wallet - 30 points
 - Build and host a UI for a verified smart contract - 15 points
 
+4. Education Blogposts
+- [Evmoscan and ETL](https://www.onlyalt.com/blog/evmoscan-and-etl)
+- [Build a NFT Project on Evmos](https://www.onlyalt.com/blog/alt-otters-nft-project-on-evmos)
+- [Alt Crypto Wallet](https://www.onlyalt.com/blog/alt-crypto-wallet)
+- [Miner Extractable Value](https://www.onlyalt.com/blog/mev-miner-extractable-value)
+
 *Repository Total Number of Points*: 105
 
 # Updating evmos library
